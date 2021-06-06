@@ -3,7 +3,7 @@ use lindera_core::core::viterbi::Mode;
 use std::collections::{BTreeMap, HashSet};
 use std::iter::FromIterator;
 
-fn tokenize(sentences: Vec<&str>) -> Vec<String> {
+fn tokenize(sentences: &Vec<&str>) -> Vec<String> {
     let mut tokenizer = Tokenizer::new(Mode::Normal, "");
     let ignore_tokens: HashSet<&str> = HashSet::from_iter(vec!["助動詞", "助詞", "記号", "UNK"]);
     let tokens = sentences
@@ -18,13 +18,9 @@ fn tokenize(sentences: Vec<&str>) -> Vec<String> {
     tokens.collect::<Vec<String>>()
 }
 
-pub fn token_counter(sentences: Vec<&str>) -> Vec<(String, usize)> {
+pub fn token_counter(token_map: &mut BTreeMap<String, usize>, sentences: &Vec<&str>) {
     let tokens = tokenize(sentences);
-    let mut token_map = BTreeMap::new();
     for token in tokens {
         *token_map.entry(token).or_insert(0) += 1;
     }
-    let mut token_count: Vec<(String, usize)> = Vec::from_iter(token_map);
-    token_count.sort_by(|&(_, a), &(_, b)| b.cmp(&a));
-    token_count
 }
