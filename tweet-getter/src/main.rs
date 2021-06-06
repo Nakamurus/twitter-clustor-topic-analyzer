@@ -11,5 +11,6 @@ use serde::{Deserialize, Serialize};
 #[tokio::main]
 async fn main() {
     dotenv().ok();
-    println!("{:#?}", tweet_getter("SHISEIDO_brand", 10).await);
+    let client = reqwest::Client::new();
+    println!("{:#?}", tweet_getter(&client, "SHISEIDO_brand", 10).await);
 }
