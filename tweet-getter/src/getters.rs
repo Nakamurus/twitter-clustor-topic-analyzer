@@ -1,5 +1,5 @@
 use user::User;
-use tweet::{Tweet, TweetResponse};
+use tweet::{Tweet, TweetResponse, ExtractedTweetInfo};
 use followers::Followers;
 
 #[path="../src/user.rs"]
@@ -51,4 +51,21 @@ pub async fn tweet_getter(client: &reqwest::Client, account:&str, count:usize) -
     let client = call_api(client, url).await;
     let res:TweetResponse = client.send().await?.json().await?;
     Ok(res)
+}
+
+pub fn extract_tweet_info(tweets: Vec<Tweet>) -> Vec<ExtractedTweetInfo> {
+    let mut v = Vec::new();
+    for tweet in tweets {
+        let urls = tweet.entities.urls;
+        let hashtags = tweet.entities.hashtags;
+        let text = tweet.text;
+        let metrics = tweet.public_metrics;
+        let mut action_count = 0i64;
+        action_count += metrics.like_count;
+        action_count += metrics.quote_count;
+        action_count += metrics.quote_count;
+        action_count += metrics.quote_count;
+        v.push(ExtractedTweetInfo::new(urls, hashtags, text, action_count));
+    }
+    v
 }

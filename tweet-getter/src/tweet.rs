@@ -21,13 +21,13 @@ pub struct Tweet {
 #[derive(Default, Debug, Clone, PartialEq, serde_derive::Serialize, serde_derive::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Entities {
-    pub annotations: Vec<Annotation>,
+    pub annotations: Option<Vec<Annotation>>,
     #[serde(default)]
-    pub hashtags: Vec<Hashtag>,
+    pub hashtags: Option<Vec<Hashtag>>,
     #[serde(default)]
-    pub mentions: Vec<Mention>,
+    pub mentions: Option<Vec<Mention>>,
     #[serde(default)]
-    pub urls: Vec<Url>,
+    pub urls: Option<Vec<Url>>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, serde_derive::Serialize, serde_derive::Deserialize)]
@@ -122,4 +122,30 @@ pub struct Meta {
     pub result_count: i64,
     #[serde(rename = "next_token")]
     pub next_token: String,
+}
+
+#[derive(Debug)]
+pub struct ExtractedTweetInfo {
+    urls: Vec<Url>,
+    hashtags: Vec<Hashtag>,
+    text: String,
+    action_count: i64,
+}
+
+impl ExtractedTweetInfo {
+    pub fn new(
+        urls: Option<Vec<Url>>,
+        hashtags: Option<Vec<Hashtag>>,
+        text: String,
+        action_count: i64,
+    ) -> ExtractedTweetInfo {
+        let urls = urls.unwrap_or(Vec::new());
+        let hashtags = hashtags.unwrap_or(Vec::new());
+        ExtractedTweetInfo {
+            urls,
+            hashtags,
+            text,
+            action_count,
+        }
+    }
 }
