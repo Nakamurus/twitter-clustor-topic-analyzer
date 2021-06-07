@@ -310,32 +310,47 @@ pub struct Small {
     pub resize: String,
 }
 
-#[derive(Default, Debug, Clone, PartialEq)]
-pub struct ExtractedTweetInfo {
-    urls: Vec<Url>,
-    hashtags: Vec<Hashtag>,
+#[derive(Debug, serde_derive::Serialize)]
+pub struct TweetForCSV {
+    pub retweet_count: i64,
+    pub reply_count: i64,
+    pub like_count: i64,
+    pub quote_count: i64,
+    pub user: String,
     pub text: String,
-    pub action_count: i64,
+    pub url: String,
+    pub image: String,
+    pub url_title: String,
+    pub retweet: String,
+    pub source: String,
 }
 
-impl ExtractedTweetInfo {
+impl TweetForCSV {
     pub fn new(
-        urls: Option<Vec<Url>>,
-        hashtags: Option<Vec<Hashtag>>,
-        text: String,
-        action_count: i64,
-    ) -> ExtractedTweetInfo {
-        let urls = urls.unwrap_or(Vec::new());
-        let hashtags = hashtags.unwrap_or(Vec::new());
-        ExtractedTweetInfo {
-            urls,
-            hashtags,
-            text,
-            action_count,
+        retweet_count: i64,
+        reply_count: i64,
+        like_count: i64,
+        quote_count: i64,
+        user: impl Into<String>,
+        text: impl Into<String>,
+        url: impl Into<String>,
+        image: impl Into<String>,
+        url_title: impl Into<String>,
+        retweet: impl Into<String>,
+        source: impl Into<String>,
+    ) -> TweetForCSV {
+        TweetForCSV {
+            retweet_count: retweet_count,
+            reply_count: reply_count,
+            like_count: like_count,
+            quote_count: quote_count,
+            user: user.into(),
+            text: text.into(),
+            url: url.into(),
+            image: image.into(),
+            url_title: url_title.into(),
+            retweet: retweet.into(),
+            source: source.into(),
         }
-    }
-
-    fn get_count(&self) -> i64 {
-        self.action_count
     }
 }
