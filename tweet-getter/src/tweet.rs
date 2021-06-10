@@ -316,6 +316,7 @@ pub struct TweetForCSV {
     pub reply_count: i64,
     pub like_count: i64,
     pub quote_count: i64,
+    pub public_metrics_sum: i64,
     pub user: String,
     pub text: String,
     pub url: String,
@@ -323,6 +324,7 @@ pub struct TweetForCSV {
     pub url_title: String,
     pub retweet: String,
     pub source: String,
+    pub frequency: usize,
 }
 
 impl TweetForCSV {
@@ -331,6 +333,8 @@ impl TweetForCSV {
         reply_count: i64,
         like_count: i64,
         quote_count: i64,
+        public_metrics_sum: i64,
+        frequency: usize,
         user: impl Into<String>,
         text: impl Into<String>,
         url: impl Into<String>,
@@ -344,6 +348,8 @@ impl TweetForCSV {
             reply_count: reply_count,
             like_count: like_count,
             quote_count: quote_count,
+            public_metrics_sum: public_metrics_sum,
+            frequency: frequency,
             user: user.into(),
             text: text.into(),
             url: url.into(),

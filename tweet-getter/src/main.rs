@@ -6,6 +6,7 @@ mod user;
 mod converters;
 mod io_helpers;
 mod aggregate_func;
+mod util_structs;
 
 use dotenv::dotenv;
 
@@ -21,3 +22,4 @@ async fn main() {
     let account_count:usize = read();
     aggregate(&target_account, account_count, tweet_count).await;
 }
+

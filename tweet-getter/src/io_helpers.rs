@@ -15,10 +15,8 @@ pub fn read<T: FromStr>() -> T {
     token.parse().ok().expect("failed to parse token")
 }
 
-pub fn token_count_writer(v: Vec<(String, usize)>) -> Result<()> {
-    println!("Input Token Counter Name");
-    let filename = read::<String>();
-    let filepath = std::path::Path::new(&filename);
+pub fn token_count_writer(filename: &str, v: Vec<(String, usize)>) -> Result<()> {
+    let filepath = std::path::Path::new(format!("{}.csv", filename));
     let mut wtr = csv::Writer::from_path(filepath)?;
     for (word, count) in v {
         wtr.write_record(&[word, count.to_string()])?;
@@ -27,10 +25,8 @@ pub fn token_count_writer(v: Vec<(String, usize)>) -> Result<()> {
     Ok(())
 }
 
-pub fn tweet_writer(v: Vec<TweetForCSV>) -> Result<()> {
-    println!("Input Tweets Aggregator Name");
-    let filename = read::<String>();
-    let filepath = std::path::Path::new(&filename);
+pub fn tweet_writer(filename: &str, v: Vec<TweetForCSV>) -> Result<()> {
+    let filepath = std::path::Path::new(format!("{}.csv", filename));
     let mut wtr = csv::Writer::from_path(filepath)?;
     for t in v {
         wtr.serialize(TweetForCSV {
@@ -38,6 +34,8 @@ pub fn tweet_writer(v: Vec<TweetForCSV>) -> Result<()> {
             reply_count: t.reply_count,
             like_count: t.like_count,
             quote_count: t.quote_count,
+            public_metrics_sum: t.public_metrics_sum,
+            frequency: t.frequency,
             user: t.user,
             text: t.text,
             url: t.url,
