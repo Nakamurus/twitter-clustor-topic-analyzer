@@ -39,6 +39,6 @@ pub async fn aggregate(target_account: &str,account_count:usize, tweet_count:usi
     println!("Tweets converted for CSV!");
     let mut token_count: Vec<(String, usize)> = Vec::from_iter(token_map);
     token_count.sort_by(|&(_, a), &(_, b)| b.cmp(&a));
-    token_count_writer(target_acount, token_count).unwrap();
-    tweet_writer(target_acount, tweets_for_csv).unwrap();
+    token_count_writer(target_account, token_count).unwrap();
+    tweet_writer(target_account, tweets_for_csv).unwrap();
 }
