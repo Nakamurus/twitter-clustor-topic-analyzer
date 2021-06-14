@@ -1,5 +1,5 @@
 use crate::tweet::{Tweet,PublicMetrics, TweetForCSV};
-use crate::getters::username_getter;
+use crate::getters::user_getter;
 use crate::util_structs::ReqwestClientHeader;
 use std::collections::BTreeMap;
 
@@ -15,7 +15,7 @@ pub async fn format_tweet_for_csv(client: &mut ReqwestClientHeader, seen_id: &mu
         username = name.to_string();
     } else {
         let id = x.clone().author_id;
-        let name = username_getter(client, &x.author_id).await.unwrap_or(id.clone());
+        let name = user_getter(client, &x.author_id).await.unwrap().name;
         seen_id.insert(id, name.clone());
         username = name;
     };
